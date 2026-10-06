@@ -1272,6 +1272,11 @@ enum Utility {
         if ProcessInfo.processInfo.environment.keys.contains("HOME") {
             environment["HOME"] = ProcessInfo.processInfo.environment["HOME"]
         }
+        // Popcorn : propager DEVELOPER_DIR, sinon xcrun/xcodebuild retombent sur
+        // les Command Line Tools (xcode-select) et -create-xcframework echoue.
+        if environment["DEVELOPER_DIR"] == nil, let dir = ProcessInfo.processInfo.environment["DEVELOPER_DIR"] {
+            environment["DEVELOPER_DIR"] = dir
+        }
         if !environment.keys.contains("PATH") {
             environment["PATH"] = BaseBuild.defaultPath
         }
